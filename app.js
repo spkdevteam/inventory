@@ -4,6 +4,7 @@ const app = express()
 const port = 8090
 const dotnev = require("dotenv");
 const cors = require("cors");
+const errorHandler = require('./errorHandler/globalErrorHandler.js');
 dotnev.config();
 
 
@@ -19,6 +20,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json())
 app.use('/',mainRouter)
+app.use(errorHandler)
+
 
 
 

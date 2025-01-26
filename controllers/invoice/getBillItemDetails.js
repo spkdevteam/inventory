@@ -1,13 +1,29 @@
 const invoices = require("../../model/contants")
+const fetchItemKart = require("../../model/services/invoice/fetchItemKart")
 
 
-const getBillItemDetails = (req, res) => {
+const getBillItemDetails = async (req, res) => {
     try {
-        const { billNumber } = req.query
-        const result = invoices.filter((val, index) => val?.invoiceDetails?._id == billNumber)[0] || []
-        const itemDetails = result?.itemDetails
-        const count = itemDetails?.length
-        res.json({ data: { currentData: itemDetails, totalDataCount: count } })
+        const data = req.query
+        const result = await fetchItemKart(data) //.find((invoice) => invoice?.invoiceDetails?._id === billNumber)
+        console.log(result,'-------------->>>>>>555555555>>>>>>>>>>>>>')
+        if (result?.status) {
+            const responce = {
+                status: result?.status,
+                message: result?.message,
+                data: {currentData:result?.data,totalDataCount:result?.data?.length}   
+            };
+
+            // Send back the response with the received data
+            res.json(responce);
+        }
+        else {
+            res.json( {
+                status: result?.status,
+                message: result?.message || 'Action failed',
+                 
+            })
+        }
     } catch (error) {
 
     }
