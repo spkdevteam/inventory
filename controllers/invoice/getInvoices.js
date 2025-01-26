@@ -1,16 +1,17 @@
 const invoices = require("../../model/contants")
+const getInvoiceList = require("../../model/services/invoice/getInvoicePagination")
 
 
-const getInvoice = (req,res)=>{
+const getInvoice = async (req,res,next)=>{
     try {
         const {page,perPage,searchKey} = req.query
         console.log(page,perPage,req.query,'my Data ')
-        const result =  invoices.filter((val,index)=>index>=parseInt(page)*parseInt(perPage) && index< parseInt(page+1)*parseInt(perPage)).map((val)=> {delete val.itemDetails; return val})
-        const count = invoices?.length
-        console.log({data:{currentData:result,totalDataCount:count}})
-        res.json({data:{currentData:result,totalDataCount:count}})  
+        const result = await getInvoiceList(req.query)
+         
+        console.log(result)
+        res.json(result)  
     } catch (error) {
-        
+        next(error)
     }
 }
 
