@@ -6,6 +6,7 @@ const getBillItemDetails = require('../controllers/invoice/getBillItemDetails')
 const postUpdateBillItemDetails  = require('../controllers/invoice/postUpdateBillItemDetails')
 const postCreateTempNewInvoice = require('../controllers/invoice/postCreateTempNewInvoice')
 const postSaveTempInvoicetoConfirm = require('../controllers/invoice/postSaveTempInvoicetoConfirm')
+const deleteItemFromKart = require('../controllers/invoice/deleteItemFromKart')
 const invoiceRouter = express.Router()
 
 invoiceRouter
@@ -15,6 +16,7 @@ invoiceRouter
 .post('/updateBillItemDetails',postUpdateBillItemDetails)
 .post('/saveTempInvoicetoConfirm',postSaveTempInvoicetoConfirm) 
 .post('/createTempNewInvoice',postCreateTempNewInvoice)  
+.delete('/deleteItemFromKart',deleteItemFromKart)
 
 
 

@@ -4,6 +4,7 @@ const invoiceDetailsSchema = require('../../invoice');
 const createOrUpdateInvoice = async (input) => {
   try {
     const invoiceData = input?.invoiceDetails;
+    console.log(invoiceData,'*******************************************')
     if (!input?.clientId) return { status: false, message: 'Database connection details not found', statusCode: 404 };
 
     const db = await getClientDatabaseConnection(input?.clientId);
@@ -42,6 +43,7 @@ const createOrUpdateInvoice = async (input) => {
     if (invoiceDetails && invoiceDetails._id) {
       existingInvoice = await Invoice.findById(invoiceDetails._id);
     }
+    console.log(existingInvoice,'existingInvoiceexistingInvoiceexistingInvoiceexistingInvoice')
 
     // Check for a record with matching supplierDetails._id, recipientDetails._id, and null displayId
     if (!existingInvoice && invoiceDetails?.displayId === null) {
