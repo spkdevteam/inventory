@@ -8,7 +8,7 @@ const postSaveTempInvoicetoConfirm = async (req, res, next) => {
         Takes the bill summary from the client and updates the server. If no display ID is generated, 
         it generates a new unique display ID and includes it in the response.
         */
-       console.log(req.body)
+       
 
         const data = req.body; // Extract data from request body
         console.log(req.body,'billSummarybillSummarybillSummary')

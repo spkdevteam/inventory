@@ -59,18 +59,22 @@ const updateInvoiceItemKart = async (input) => {
       totalSGST: 0,
       totalIGST: 0,
       totalCess: 0,
+       
     };
+    let totalDiscount =0
 
     let totalValue = 0;
 
     itemKart.forEach((item) => {
-      const { taxableValue = 0, cgst = 0, sgst = 0, igst = 0, total = 0 } = item;
+      const { taxableValue = 0, cgst = 0, sgst = 0, igst = 0, total = 0,discount=0 } = item;
 
       taxDetails.totalTaxableValue += taxableValue;
       taxDetails.totalCGST += cgst;
       taxDetails.totalSGST += sgst;
       taxDetails.totalIGST += igst;
-
+      
+      
+      totalDiscount += discount;
       totalValue += total;
     });
 
@@ -82,6 +86,7 @@ const updateInvoiceItemKart = async (input) => {
     // Assign updated values to the invoice
     existingInvoice.taxDetails = taxDetails;
     existingInvoice.totalAmount = totalAmount;
+    existingInvoice.discount = totalDiscount;
 
     // Save the updated invoice
     const updatedInvoice = await existingInvoice.save();

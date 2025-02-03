@@ -2,9 +2,10 @@ const { getClientDatabaseConnection } = require('../../connection');
 const invoiceDetailsSchema = require('../../invoice');
 
   
-const getInvoiceList = async ({page,perPage,searchKey,clientId,patientId}) => {
+const getInvoiceList = async ({page,perPage,searchKey,clientId,patientId,branchId}) => {
     try {
       const  keyWord     =searchKey;
+      console.log(page,perPage,searchKey,clientId,patientId,branchId,'page,perPage,searchKey,clientId,patientId,branchId')
   
       if (!clientId) {
         return res.status(400).json({ message: 'Client ID is required' });
@@ -21,12 +22,13 @@ const getInvoiceList = async ({page,perPage,searchKey,clientId,patientId}) => {
       // Build the filter query
       const filter = {
         ...(keyWord && { $text: { $search: keyWord } }), // Full-text search across all fields if keyWord is provided
-        ...(patientId && { 'recipientDetails._id': patientId }), // Filter by patientId if provided
+        ...(patientId?.length && { 'recipientDetails._id': patientId }),
+        ...(branchId?.length && { 'supplierDetails._id': branchId }), 
       };
   
       // Fetch invoices with sorting, filtering, and pagination
       const invoices = await Invoice.find(filter)
-        .sort({ createdAt: -1 }) // Sort by creation date in descending order
+        .sort({ displayId: -1 }) // Sort by creation date in descending order
         .skip(pageNumber * itemsPerPage)
         .limit(itemsPerPage)
         .select('-itemDetails'); // Exclude `itemDetails` field

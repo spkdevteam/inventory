@@ -56,6 +56,7 @@ const invoiceDetailsSchema = new mongoose.Schema({
   discount: { type: Number, default: 0 },
   signature: { type: String, default: null },
   createdBy: { type: String, default: null },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const Invoice = mongoose.model('Invoice', invoiceDetailsSchema);

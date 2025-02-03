@@ -7,6 +7,7 @@ const serialNumebrSchema = require("../../serialNumber");
 
 const getserialNumber = async (collection,clientId,prefix) => {
     try {
+        console.log(collection,clientId,prefix,'collection,clientId,prefix')
         const db = await getClientDatabaseConnection(clientId);
         const serialNumber =await db.model('serialNumber',serialNumebrSchema)
         const result = await serialNumber.findOneAndUpdate({ collectionName: collection }, { $inc: { nextNum: 1 } })
