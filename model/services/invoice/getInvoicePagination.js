@@ -28,7 +28,7 @@ const getInvoiceList = async ({page,perPage,searchKey,clientId,patientId,branchI
   
       // Fetch invoices with sorting, filtering, and pagination
       const invoices = await Invoice.find(filter)
-        .sort({ displayId: -1 }) // Sort by creation date in descending order
+      .sort({ createdAt: -1 })  // Sort by creation date in descending order
         .skip(pageNumber * itemsPerPage)
         .limit(itemsPerPage)
         .select('-itemDetails'); // Exclude `itemDetails` field
