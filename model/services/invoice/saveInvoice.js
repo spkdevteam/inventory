@@ -23,7 +23,7 @@ const updateInvoiceDisplayId = async ({clientId, invoiceId,prefix}) => {
     }
 
     // Generate a new displayId
-    const newDisplayId =await getserialNumber('invoice',clientId,prefix)
+    const newDisplayId =await getserialNumber('invoice',clientId,prefix+'-IV')
 
     // Update the displayId in the database
     invoice.invoiceDetails.displayId = newDisplayId;
