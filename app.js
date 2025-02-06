@@ -6,6 +6,7 @@ const dotnev = require("dotenv");
 const cors = require("cors");
 const errorHandler = require('./errorHandler/globalErrorHandler.js');
 dotnev.config();
+ 
 
 
 const corsOptions = {

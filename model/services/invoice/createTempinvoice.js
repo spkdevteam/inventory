@@ -22,7 +22,7 @@ const createOrUpdateInvoice = async (input) => {
     if (!invoiceDetails || !invoiceDetails.invoiceDate) {
       throw new Error('Invoice date is required');
     }
-    if (!supplierDetails || !supplierDetails.name || !supplierDetails.gstin || !supplierDetails.email) {
+    if (!supplierDetails || !supplierDetails.name  || !supplierDetails.email) {
       throw new Error('Supplier details are incomplete');
     }
     if (!recipientDetails || !recipientDetails.name || !recipientDetails.email) {
