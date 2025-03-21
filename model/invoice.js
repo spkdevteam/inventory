@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
 const billedItemSchema = new mongoose.Schema({
-  itemName: String,
-  hsnSacCode: String,
+  itemName: String,//=>serviceName
+  itemId : { type: mongoose.Schema.Types.ObjectId, default : null}, //=>serviceId
+  estimateNumber: { type: [String], default: []},
   quantity: Number,
   discount: Number,
   unitPrice: Number,
   taxableValue: Number,
+  description : String,//=> convert toothArr in a string and store here
+  quotation_number : String,
   cgst: Number,
   sgst: Number,
   igst: Number,
