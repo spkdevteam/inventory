@@ -7,6 +7,8 @@ const postUpdateBillItemDetails  = require('../controllers/invoice/postUpdateBil
 const postCreateTempNewInvoice = require('../controllers/invoice/postCreateTempNewInvoice')
 const postSaveTempInvoicetoConfirm = require('../controllers/invoice/postSaveTempInvoicetoConfirm')
 const deleteItemFromKart = require('../controllers/invoice/deleteItemFromKart')
+const getPrintedInvoice = require('../controllers/invoice/getPrintedInvoice')
+const updateBulkInvoiceItemKart = require('../controllers/invoice/updateBulkInvoiceItemKart')
 const invoiceRouter = express.Router()
 
 invoiceRouter
@@ -17,7 +19,8 @@ invoiceRouter
 .post('/saveTempInvoicetoConfirm',postSaveTempInvoicetoConfirm) 
 .post('/createTempNewInvoice',postCreateTempNewInvoice)  
 .delete('/deleteItemFromKart',deleteItemFromKart)
-
+.get('/getPrintedInvoice',getPrintedInvoice) //for pdf generation
+.post('/updateBulkBillItemDetails',updateBulkInvoiceItemKart) //for updating in bulk
 
 
 
