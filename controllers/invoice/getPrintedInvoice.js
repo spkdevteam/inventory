@@ -1,3 +1,5 @@
+const getPrintedInvoiceFn = require("../../model/services/invoice/getPrintedInvoiceFn");
+
 const getPrintedInvoice = async (req, res, next) =>{
     try{
         const { clientId,invoiceNo } = req?.params;
