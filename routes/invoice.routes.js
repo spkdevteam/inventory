@@ -7,13 +7,15 @@ const postUpdateBillItemDetails  = require('../controllers/invoice/postUpdateBil
 const postCreateTempNewInvoice = require('../controllers/invoice/postCreateTempNewInvoice')
 const postSaveTempInvoicetoConfirm = require('../controllers/invoice/postSaveTempInvoicetoConfirm')
 const deleteItemFromKart = require('../controllers/invoice/deleteItemFromKart')
+const updateBillietmdetailsOld = require('../model/services/invoice/updateBillietmdetailsOld')
+const postUpdateBillItemDetailsOld = require('../controllers/invoice/postUpdateBillItemDetailsOld')
 const invoiceRouter = express.Router()
 
 invoiceRouter
 .get('/getinvoices',getInvoice) 
 .get('/getinvoicesForPatient',getInvoiceforOnePatient) 
 .get('/getBillItemDetails',getBillItemDetails)
-.post('/updateBillItemDetails',postUpdateBillItemDetails)
+.post('/updateBillItemDetails',postUpdateBillItemDetailsOld)
 .post('/saveTempInvoicetoConfirm',postSaveTempInvoicetoConfirm) 
 .post('/createTempNewInvoice',postCreateTempNewInvoice)  
 .delete('/deleteItemFromKart',deleteItemFromKart)
