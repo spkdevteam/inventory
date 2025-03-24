@@ -19,7 +19,7 @@ invoiceRouter
 .post('/saveTempInvoicetoConfirm',postSaveTempInvoicetoConfirm) 
 .post('/createTempNewInvoice',postCreateTempNewInvoice)  
 .delete('/deleteItemFromKart',deleteItemFromKart)
-.get('/getPrintedInvoice',getPrintedInvoice) //for pdf generation
+.get('/getPrintedInvoice/:clientId/:invoiceId',getPrintedInvoice) //for pdf generation
 .post('/updateBulkBillItemDetails',updateBulkInvoiceItemKart) //for updating in bulk
 
 
