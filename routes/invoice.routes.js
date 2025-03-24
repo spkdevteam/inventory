@@ -17,6 +17,7 @@ invoiceRouter
 .post('/saveTempInvoicetoConfirm',postSaveTempInvoicetoConfirm) 
 .post('/createTempNewInvoice',postCreateTempNewInvoice)  
 .delete('/deleteItemFromKart',deleteItemFromKart)
+.post('/updateEstimateItemstoKart',postUpdateBillItemDetails)
 
 
 
