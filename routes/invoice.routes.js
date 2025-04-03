@@ -11,6 +11,7 @@ const updateBillietmdetailsOld = require('../model/services/invoice/updateBillie
 const postUpdateBillItemDetailsOld = require('../controllers/invoice/postUpdateBillItemDetailsOld')
 const updateBulkInvoiceItemKart = require('../controllers/invoice/updateBulkInvoiceItemKart')
 const getPrintedInvoice = require('../controllers/invoice/getPrintedInvoice')
+const getInvoiceDetailsctrl = require('../controllers/invoice/getInvoiceDetailsctrl')
 const invoiceRouter = express.Router()
 
 invoiceRouter
@@ -25,6 +26,6 @@ invoiceRouter
 .get('/getPrintedInvoice/:clientId/:invoiceId',getPrintedInvoice) //for pdf generation
 .post('/updateBulkBillItemDetails',updateBulkInvoiceItemKart) //for updating in bulk
 
-
+.get('/getInvoiceDetails',getInvoiceDetailsctrl); 
 
 module.exports = invoiceRouter

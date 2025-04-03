@@ -60,6 +60,9 @@ const invoiceDetailsSchema = new mongoose.Schema({
   signature: { type: String, default: null },
   createdBy: { type: String, default: null },
   createdAt: { type: Date, default: Date.now },
+  updatedBy : { type: String, default: null },
+  deletedBy : { type: String, default: null },
+  deletedAt : { type: Date, default: null, index: true }
 });
 
 const Invoice = mongoose.model('Invoice', invoiceDetailsSchema);
