@@ -24,6 +24,7 @@ const getInvoiceList = async ({page,perPage,searchKey,clientId,patientId,branchI
         ...(keyWord && { $text: { $search: keyWord } }), // Full-text search across all fields if keyWord is provided
         ...(patientId?.length && { 'recipientDetails._id': patientId }),
         ...(branchId?.length && { 'supplierDetails._id': branchId }), 
+        deletedAt : null
       };
   
       // Fetch invoices with sorting, filtering, and pagination

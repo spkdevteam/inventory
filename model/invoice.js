@@ -56,6 +56,7 @@ const invoiceDetailsSchema = new mongoose.Schema({
     inWords: { type: String, default: 'Zero Only' },
   },
   itemKart: { type: [billedItemSchema], default: [] }, // Embedded schema
+  debitNoteNumber : { type: String, default: null }, //added to store debit note
   discount: { type: Number, default: 0 },
   signature: { type: String, default: null },
   createdBy: { type: String, default: null },
