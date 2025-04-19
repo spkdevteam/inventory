@@ -1,8 +1,8 @@
 const { default: mongoose } = require('mongoose');
 const { getClientDatabaseConnection } = require('../../connection');
 const invoiceDetailsSchema = require('../../invoice');
-const getInvoiceDetailsFn = async ({ from_Date = null, toDate = null, clientId, SearchKey = "", page = null, perPage = null, 
-    createdBy, updatedBy }) => {
+const getInvoiceDetailsFn = async ({ from_Date = null, toDate = null, clientId, SearchKey = "", page = null, perPage = null,
+    createdBy, updatedBy, buId, branchId, patientId }) => {
     try {
         let searchQuery = {};
         if (SearchKey) {
@@ -32,7 +32,8 @@ const getInvoiceDetailsFn = async ({ from_Date = null, toDate = null, clientId, 
                             { "recipientDetails.displayId": { $regex: word, $options: "i" } },
                             { "totalAmount.inWords": { $regex: word, $options: "i" } },
                             { "netAmount.inWords": { $regex: word, $options: "i" } },
-                            { signature: { $regex: word, $options: "i" } },
+                            { "signature": { $regex: word, $options: "i" } },
+                            { "debitNoteNumber": { $regex: word, $options: "i" } },
                             ...(isNaN(numWord) ? [] : [
                                 { "taxDetails.totalTaxableValue": numWord },
                                 { "taxDetails.totalCGST": numWord },
@@ -56,42 +57,76 @@ const getInvoiceDetailsFn = async ({ from_Date = null, toDate = null, clientId, 
         }
         console.log("searchQuery=>>>", searchQuery);
         console.log("searchQuery=>>>", searchQuery);
-        let from_DateSearchKey = {};
-        if (from_Date) {
-            from_DateSearchKey = {
-                createdAt: { $gte: new Date(from_Date) }
+        //
+        let dateSearchKey = {};
+
+        if (from_Date || toDate) {
+            dateSearchKey.createdAt = {};
+
+            if (from_Date) {
+                dateSearchKey.createdAt.$gte = new Date(from_Date);
+            }
+            if (toDate) {
+                dateSearchKey.createdAt.$lte = new Date(toDate);
             }
         }
-        let toDateSearchKey = {};
-        if (toDate) {
-            toDateSearchKey = {
-                createdAt: { $lte: new Date(toDate) }
-            }
+
+        let buIdSearchKey = {};
+
+        let branchSearchKey = {};
+        if(branchId){
+            branchSearchKey = {'supplierDetails._id': branchId}
         }
+
+        let patientIdSearchKey = {};
+        if(patientId){
+            patientIdSearchKey = {'recipientDetails._id': patientId}
+        }
+
+        
+        //
+        // let from_DateSearchKey = {};
+        // if (from_Date) {
+        //     from_DateSearchKey = {
+        //         createdAt: { $gte: new Date(from_Date) }
+        //     }
+        // }
+        // let toDateSearchKey = {};
+        // if (toDate) {
+        //     toDateSearchKey = {
+        //         createdAt: { $lte: new Date(toDate) }
+        //     }
+        // }
         //establishing db connection :
         const db = await getClientDatabaseConnection(clientId);
-        const invoiceModel = await db.model('Invoice',invoiceDetailsSchema);
+        const invoiceModel = await db.model('Invoice', invoiceDetailsSchema);
         //filterings:
         let createdBySearchKey = {};
-        if(createdBy){
-            createdBySearchKey = {createdBy : createdBy}
+        if (createdBy) {
+            createdBySearchKey = { createdBy: createdBy }
         }
         let updatedBySearchKey = {};
-        if(updatedBy){
-            updatedBySearchKey = {updatedBy : updatedBy}
+        if (updatedBy) {
+            updatedBySearchKey = { updatedBy: updatedBy }
         }
         let query = invoiceModel.find({
             ...searchQuery,
-            ...from_DateSearchKey,
-            ...toDateSearchKey,
+            // ...from_DateSearchKey,
+            // ...toDateSearchKey,
+            ...dateSearchKey,
+            ...branchSearchKey,
+            ...patientIdSearchKey,
             ...createdBySearchKey,
             ...updatedBySearchKey,
             deletedAt: null
         });
         const totalDocs = await invoiceModel.countDocuments({
             ...searchQuery,
-            ...from_DateSearchKey,
-            ...toDateSearchKey,
+            // ...from_DateSearchKey,
+            // ...toDateSearchKey,
+            ...dateSearchKey,
+            ...branchSearchKey,
+            ...patientIdSearchKey,
             ...createdBySearchKey,
             ...updatedBySearchKey,
             deletedAt: null
@@ -109,7 +144,7 @@ const getInvoiceDetailsFn = async ({ from_Date = null, toDate = null, clientId, 
         }
         const fetchedInvoice = await query;
         console.log("fetchedInvoice=>>>", fetchedInvoice);
-        if (!fetchedInvoice) return { status: false, message: "Invoices can't be fetched!!" };
+        if (!fetchedInvoice) return { status: false, data:[], metaData:{}, message: "Invoices can't be fetched!!" };
 
         let metaData = {};
         if (page && perPage) {
